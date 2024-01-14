@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "auto-field-properties"
+version = "0.1.0"
+description = ""
+authors = ["remeenemee <dk3880930@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+docx = "^0.2.4"
+openpyxl = "^3.1.2"
+python-docx-oss = "^0.0.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
