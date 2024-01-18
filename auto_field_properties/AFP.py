@@ -4,6 +4,7 @@ from tkinter import filedialog
 from openpyxl import load_workbook
 from docx import Document
 
+
 class AutoFillProperties:
     def __init__(self, master):
         self.master = master
@@ -15,39 +16,48 @@ class AutoFillProperties:
         self.button_update = tk.Label(master, text="Автозаполнение полей ПЗ")
         self.button_update.grid(row=0, column=0, columnspan=2, pady=20)
 
-        self.label_excel = tk.Label(master, text="Выберите файл базы данных Excel:")
+        self.label_excel = tk.Label(
+            master, text="Выберите файл базы данных Excel:")
         self.label_excel.grid(row=1, column=0, padx=10, pady=10)
 
-        self.button_excel = tk.Button(master, text="Выбрать Excel", command=self.choose_excel_file)
+        self.button_excel = tk.Button(
+            master, text="Выбрать Excel", command=self.choose_excel_file)
         self.button_excel.grid(row=1, column=1, padx=10, pady=10)
 
         self.label_word = tk.Label(master, text="Выберите файл Word:")
         self.label_word.grid(row=2, column=0, padx=10, pady=10)
 
-        self.button_word = tk.Button(master, text="Выбрать Word", command=self.choose_word_file)
+        self.button_word = tk.Button(
+            master, text="Выбрать Word", command=self.choose_word_file)
         self.button_word.grid(row=2, column=1, padx=10, pady=10)
 
-        self.button_update = tk.Button(master, text="Создать поля документа", command=self.add_custom_properties)
+        self.button_update = tk.Button(
+            master, text="Создать поля документа", command=self.add_standart_custom_properties)
         self.button_update.grid(row=3, column=0, columnspan=2, pady=20)
 
-        self.button_update = tk.Button(master, text="Обновить поля из базы данных", command=self.update_properties)
+        self.button_update = tk.Button(
+            master, text="Обновить поля из базы данных", command=self.update_properties)
         self.button_update.grid(row=4, column=0, columnspan=2, pady=20)
 
         self.status_label = tk.Label(master, text="")
         self.status_label.grid(row=5, column=0, columnspan=2)
 
-        self.status_label = tk.Label(master, text="v0.1 KochevDA")
-        self.status_label.grid(row=5, column=1, columnspan=2)
+        self.dev_label = tk.Label(master, text="v0.1 KochevDA")
+        self.dev_label.grid(row=6, column=1, columnspan=2)
 
     def choose_excel_file(self):
-        self.excel_file_path = filedialog.askopenfilename(filetypes=[("Excel Files", "*.xlsx;*.xls")])
-        self.status_label.config(text=f"Выбран файл Excel: {os.path.basename(self.excel_file_path)}")
+        self.excel_file_path = filedialog.askopenfilename(
+            filetypes=[("Excel Files", "*.xlsx;*.xls")])
+        self.status_label.config(
+            text=f"Выбран файл Excel: {os.path.basename(self.excel_file_path)}")
 
     def choose_word_file(self):
-        self.word_file_path = filedialog.askopenfilename(filetypes=[("Word Files", "*.docx")])
-        self.status_label.config(text=f"Выбран файл Word: {os.path.basename(self.word_file_path)}")
+        self.word_file_path = filedialog.askopenfilename(
+            filetypes=[("Word Files", "*.docx")])
+        self.status_label.config(
+            text=f"Выбран файл Word: {os.path.basename(self.word_file_path)}")
 
-    def add_custom_properties(self):
+    def add_standart_custom_properties(self):
         word_document = Document(self.word_file_path)
 
         word_document.custom_properties['наименование_заказчика'] = '-'
@@ -56,6 +66,9 @@ class AutoFillProperties:
         word_document.custom_properties['шифр_объекта'] = '-'
         word_document.custom_properties['кадастровый_номер'] = '-'
         word_document.custom_properties['гпзу'] = '-'
+
+        # def add_new_custom_properties():
+
 
         word_document.save(self.word_file_path)
         self.status_label.config(text="Свойства документа созданы!")
@@ -78,7 +91,6 @@ class AutoFillProperties:
 
             word_document = Document(self.word_file_path)
 
-
             # Обновление свойств
             if word_document.custom_properties['наименование_заказчика']:
                 word_document.custom_properties['наименование_заказчика'] = наименование_заказчика
@@ -99,15 +111,14 @@ class AutoFillProperties:
                 word_document.custom_properties['гпзу'] = гпзу
 
             word_document.save(self.word_file_path)
-            self.status_label.config(text="Изменения внесены в свойства документа Word.")
+            self.status_label.config(
+                text="Изменения внесены в свойства документа Word.")
 
         except Exception as e:
             self.status_label.config(text=f"Ошибка: {str(e)}")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
     app = AutoFillProperties(root)
     root.mainloop()
-
-
-
